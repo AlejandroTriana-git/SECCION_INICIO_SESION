@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { obtenerReservas } from "../controllers/reservaController";
-import { verificarTokenJWT} from "../middleware/auth";
+import { obtenerReservas } from "../controllers/reservaController.js";
+import { verificarTokenJWT} from "../middleware/auth.js";
 
 
 const router = Router();

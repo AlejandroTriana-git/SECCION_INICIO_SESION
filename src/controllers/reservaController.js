@@ -1,5 +1,5 @@
 
-import pool from "../config/db";
+import pool from "../config/db.js";
 
 //Para traer las reservas segun un filtro, se usa query params, donde se envia por sql, va despues de ?
 export const obtenerReservas = async (req, res) => {

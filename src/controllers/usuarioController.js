@@ -3,13 +3,13 @@ import pool from "../config/db.js";
 
 
 //Para crear los tokenHash para las contraseñas:
-const bcrypt = require("bcrypt");
+import bcrypt from "bcrypt";
 
 
 //Seccion para obtener a los usuarios y crear a los usuarios.
 export const obtenerUsuarios = async (req, res) => {
   try{
-    const [rows] = await pool.query("SELECT idCliente, nombre, correo, telefono FROM cliente WHERE activo = 1");
+    const [rows] = await pool.query("SELECT idCliente, nombre, correo FROM cliente");
     res.status(200).json(rows);
   } catch (error){
     res.status(500).json({error: "Error al obtener usuariossssss"});
