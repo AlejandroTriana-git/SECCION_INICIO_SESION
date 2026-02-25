@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 
 export const verificarTokenJWT = (req, res, next) => {
   try {
-    console.log("HEADERS:", req.headers.authorization);
+    ("HEADERS:", req.headers.authorization);
 
     const authHeader = req.headers.authorization;
 
@@ -13,7 +13,7 @@ export const verificarTokenJWT = (req, res, next) => {
     }
 
     const token = authHeader.split(" ")[1];
-    console.log("TOKEN RECIBIDO:", token);
+    ("TOKEN RECIBIDO:", token);
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
