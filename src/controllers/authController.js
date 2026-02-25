@@ -6,16 +6,9 @@ import crypto from "crypto";
 const JWT_SECRET = process.env.JWT_SECRET || "tu_clave_secreta_corta"; // en prod usar env var
 const JWT_EXPIRES_IN = "8h"; // ajusta según necesidad
 
-//Hasta aca es para validar, luego de esto son generadores de tokens
 
 
-function hashToken(token, secret) {
-  return crypto.createHmac("sha256", secret).update(token).digest("hex");
-};
-
-
-
-export const verificarToken = async (req, res) => {
+export const verificarAuth = async (req, res) => {
   let connection = null;
 
   try {
