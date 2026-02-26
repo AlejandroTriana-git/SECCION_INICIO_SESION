@@ -28,7 +28,7 @@ export const verificarAuth = async (req, res) => {
 
     // INICIAR transacción antes de cualquier SELECT ... FOR UPDATE
     await connection.beginTransaction();
-    ("🔍 Verificando token (tx iniciada) para correo:", correo);
+    ("Verificando token (tx iniciada) para correo:", correo);
 
     // 0) Seleccionar cliente con FOR UPDATE usando la misma conexión/tx
     const [clienteRows] = await connection.query(
@@ -100,7 +100,7 @@ export const verificarAuth = async (req, res) => {
       );
       ("Insert bloqueo result:", insertRes[0] || insertRes);
       await connection.commit();
-      (`⚠️ Cliente ${idCliente} alcanzó límite de intentos - BLOQUEANDO`);
+      (`Cliente ${idCliente} alcanzó límite de intentos - BLOQUEANDO`);
       return res.status(429).json({
         error: `Demasiados intentos fallidos. Cuenta bloqueada por ${VENTANA_BLOQUEO_MINUTOS} minutos.`
       });
@@ -123,7 +123,7 @@ export const verificarAuth = async (req, res) => {
       const intentosRestantes = Math.max(0, MAX_INTENTOS - intentosActuales);
 
       await connection.commit();
-      (`❌ Contraseña inválida - cliente ${idCliente} - intentosRestantes: ${intentosRestantes}`);
+      (`Contraseña inválida - cliente ${idCliente} - intentosRestantes: ${intentosRestantes}`);
 
       if (intentosRestantes > 0) {
         return res.status(400).json({
@@ -148,7 +148,7 @@ export const verificarAuth = async (req, res) => {
     );
 
     await connection.commit();
-    (`✅ Verificación exitosa - Cliente ${idCliente}`);
+    (`Verificación exitosa - Cliente ${idCliente}`);
 
     // Generar token fuera de la transacción (ya hicimos commit)
     const payload = { id: idCliente, rol: rol || "cliente" };
@@ -158,7 +158,7 @@ export const verificarAuth = async (req, res) => {
     return res.status(200).json({ message: "Verificación exitosa", tokenWeb, JWT_EXPIRES_IN, user });
 
   } catch (error) {
-    console.error("💥 ERROR en verificarToken:", error);
+    console.error("ERROR en verificarToken:", error);
     try { if (connection) await connection.rollback(); } catch (e) { console.error("Rollback falló:", e); }
     return res.status(500).json({ error: "Error al verificar código" });
   } finally {
