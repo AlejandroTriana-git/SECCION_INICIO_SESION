@@ -33,8 +33,9 @@ Este repositorio contiene un módulo (sección) que implementa un **API REST de 
 
 ---
 
-## Variables de entorno (ejemplo)
+## Variables de entorno 
 
+Crea un archivo .env en el directorio /backend con los siguientes valores:
 
 ```
 DB_HOST=localhost
@@ -156,128 +157,43 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 ### 1) Registro de usuario
 
-* **Endpoint**: `POST /api/auth/register`
+* **Endpoint**: `POST /clientes/crearUsuario`
 * **Descripción**: Crea un nuevo usuario, valida datos, verifica que no exista y guarda el `passwordHash`.
 * **Request body (JSON)**:
 
 ```json
 {
   "nombre": "Juan Perez",
-  "email": "juan@example.com",
-  "password": "MiClaveSegura123"
+  "correo": "juan@example.com",
+  "constraseña": "MiClaveSegura123"
 }
 ```
 
-* **Respuestas**:
-
-  * `201 Created` (registro exitoso)
-  * `400 Bad Request` (validación de datos)
-  * `409 Conflict` (usuario ya existe)
 
 ### 2) Login
 
-* **Endpoint**: `POST /api/auth/login`
+* **Endpoint**: `POST /auth/verificar`
 * **Descripción**: Valida credenciales, compara contraseña con `bcrypt`, genera token JWT firmado.
 * **Request body (JSON)**:
 
 ```json
 {
-  "email": "juan@example.com",
-  "password": "MiClaveSegura123"
+  "correo": "juan@example.com",
+  "contraseña": "MiClaveSegura123"
 }
 ```
 
-* **Respuesta exitosa (200)**:
-
-```json
-{
-  "ok": true,
-  "token": "<JWT_TOKEN>",
-  "expiresIn": "1d"
-}
-```
-
-* Códigos: `400` (datos inválidos), `401` (credenciales inválidas)
 
 ### 3) Ruta protegida (perfil de usuario)
 
-* **Endpoint**: `GET /api/profile`
+* **Endpoint**: `GET /reservas/reservas`
 * **Cabecera**: `Authorization: Bearer <JWT_TOKEN>`
-* **Descripción**: Valida token y retorna datos del usuario autenticado.
-* **Respuestas**:
-
-  * `200 OK` (retorna perfil)
-  * `401 Unauthorized` (sin token)
-  * `403 Forbidden` (token inválido/expirado)
-
-**Ejemplo (curl)**:
-
-```bash
-curl -H "Authorization: Bearer <JWT_TOKEN>" http://localhost:3000/api/profile
+* **Descripción**: Valida token y retorna datos o ruta que el usuario solicito.
 ```
 
 ---
 
-## Ejemplo rápido (curl)
-
-1. Registro
-
-```bash
-curl -X POST http://localhost:3000/api/auth/register \
-  -H "Content-Type: application/json" \
-  -d '{"nombre":"Juan","email":"juan@example.com","password":"MiClave123"}'
-```
-
-2. Login (recibirás un token)
-
-```bash
-curl -X POST http://localhost:3000/api/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{"email":"juan@example.com","password":"MiClave123"}'
-```
-
-Respuesta ejemplo:
-
-```json
-{
-  "ok": true,
-  "token": "eyJhbGciOiJI...",
-  "expiresIn": "1d"
-}
-```
-
-3. Acceder a ruta protegida
-
-```bash
-curl -H "Authorization: Bearer eyJhbGciOiJI..." \
-  http://localhost:3000/api/profile
-```
-
----
-
-## Manejo de errores y formato de respuesta
-
-Las respuestas de error deben seguir un formato consistente, por ejemplo:
-
-```json
-{
-  "ok": false,
-  "message": "Credenciales inválidas",
-  "errors": [ ... ]
-}
-```
-
-Mapeo básico de códigos:
-
-* `400` – Error de validación
-* `401` – No autenticado (sin token)
-* `403` – Token inválido / sin permisos
-* `404` – Ruta no encontrada
-* `500` – Error interno
-
----
-
-## Seguridad mínima implementada
+### Seguridad mínima implementada
 
 * Contraseñas hasheadas con `bcrypt` antes de persistir.
 * Validación de payloads (ej. `express-validator` o Joi) para evitar datos inválidos.
