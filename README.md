@@ -189,71 +189,13 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 * **Endpoint**: `GET /reservas/reservas`
 * **Cabecera**: `Authorization: Bearer <JWT_TOKEN>`
 * **Descripción**: Valida token y retorna datos o ruta que el usuario solicito.
-```
+
 
 ---
 
-### Seguridad mínima implementada
-
-* Contraseñas hasheadas con `bcrypt` antes de persistir.
-* Validación de payloads (ej. `express-validator` o Joi) para evitar datos inválidos.
-* Manejo centralizado de errores (no exponer stacktrace en producción).
-* Uso de variables de entorno para secretos (`JWT_SECRET`) y credenciales.
-* No devolver información sensible en las respuestas (ej., nunca devolver `passwordHash`).
-* Uso correcto de header `Authorization: Bearer <token>`.
-
----
-
-## Pruebas obligatorias (colección Postman / Insomnia)
-
-Adjuntar en el repositorio una colección con pruebas que demuestren los siguientes casos:
-
-1. Registro exitoso
-2. Registro duplicado
-3. Login correcto
-4. Login incorrecto
-5. Acceso sin token a ruta protegida
-6. Acceso con token inválido
-7. Acceso con token válido
-
-**Consejo**: guarda la colección en `postman/Autenticacion-api.postman_collection.json` o `insomnia/Autenticacion-api.json`.
-
----
-
-## Cómo ejecutar el proyecto (ejemplo)
-
-1. Instalar dependencias:
-
-```bash
-npm install
-```
-
-2. Crear `.env` con las variables necesarias (ver sección arriba).
-
-3. Ejecutar en modo desarrollo:
-
-```bash
-npm run dev    # si usas nodemon
-# o
-npm start
-```
-
-4. Abrir `http://localhost:3000` (o el puerto configurado).
-
----
-
-## Notas finales / Recomendaciones
-
-* Selecciona una base de datos (MongoDB si quieres usar `mongoose`, MySQL/Postgres si prefieres SQL y `sequelize`).
-* Implementa pruebas unitarias e integradas si el tiempo lo permite.
-* Añade rate limiting y protección contra fuerza bruta para endpoints de login en producción.
-
----
 
 ## Licencia
 
-MIT
+MIT, Autor: Jose Alejandro Triana Velasquez
 
 ---
-
-*Archivo generado como README sugerido para la evidencia. Si quieres que lo adapte exactamente a una implementación con MongoDB o MySQL (incluyendo ejemplos de `models/` y comandos `npm`), o que genere la colección Postman automáticamente, dime y la genero.*
